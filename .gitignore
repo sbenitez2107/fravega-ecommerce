@@ -1,1 +1,15 @@
 /mongodb_data
+
+/FravegaEcommerceApi/.vs
+
+/FravegaEcommerceApi/test/FravegaEcommerce.Tests/bin
+/FravegaEcommerceApi/test/FravegaEcommerce.Tests/obj
+
+/FravegaEcommerceApi/src/FravegaEcommerce.API/FravegaEcommerce.API/bin
+/FravegaEcommerceApi/src/FravegaEcommerce.API/FravegaEcommerce.API/obj
+
+/FravegaEcommerceApi/src/FravegaEcommerce.Application/FravegaEcommerce.Application/bin
+/FravegaEcommerceApi/src/FravegaEcommerce.Application/FravegaEcommerce.Application/obj
+
+/FravegaEcommerceApi/src/FravegaEcommerce.Domain/FravegaEcommerce.Domain/bin
+/FravegaEcommerceApi/src/FravegaEcommerce.Domain/FravegaEcommerce.Domain/obj

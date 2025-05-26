@@ -3,7 +3,17 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.11.35312.102
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FravegaEcommerceAPI", "FravegaEcommerceAPI.csproj", "{C3B5332C-EB0F-439C-A9E2-D16F85F2A0A7}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{AFAA0841-BD93-466F-B8F4-FB4EEC86F1FC}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{F10AA149-2626-486E-85BB-9CD5365F3016}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FravegaEcommerce.API", "src\FravegaEcommerce.API\FravegaEcommerce.API\FravegaEcommerce.API.csproj", "{C3B5332C-EB0F-439C-A9E2-D16F85F2A0A7}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FravegaEcommerce.Application", "src\FravegaEcommerce.Application\FravegaEcommerce.Application\FravegaEcommerce.Application.csproj", "{38F6874A-AB6B-41A5-A3C8-3D5FDFEAD638}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FravegaEcommerce.Domain", "src\FravegaEcommerce.Domain\FravegaEcommerce.Domain\FravegaEcommerce.Domain.csproj", "{6D360480-CE8F-42AC-A5AF-C018F3B49B57}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FravegaEcommerce.Tests", "test\FravegaEcommerce.Tests\FravegaEcommerce.Tests.csproj", "{16DAD9A5-4B50-47BE-8B38-597EBE1CCFD6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,9 +25,27 @@ Global
 		{C3B5332C-EB0F-439C-A9E2-D16F85F2A0A7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C3B5332C-EB0F-439C-A9E2-D16F85F2A0A7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C3B5332C-EB0F-439C-A9E2-D16F85F2A0A7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{38F6874A-AB6B-41A5-A3C8-3D5FDFEAD638}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{38F6874A-AB6B-41A5-A3C8-3D5FDFEAD638}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{38F6874A-AB6B-41A5-A3C8-3D5FDFEAD638}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{38F6874A-AB6B-41A5-A3C8-3D5FDFEAD638}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6D360480-CE8F-42AC-A5AF-C018F3B49B57}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6D360480-CE8F-42AC-A5AF-C018F3B49B57}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6D360480-CE8F-42AC-A5AF-C018F3B49B57}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6D360480-CE8F-42AC-A5AF-C018F3B49B57}.Release|Any CPU.Build.0 = Release|Any CPU
+		{16DAD9A5-4B50-47BE-8B38-597EBE1CCFD6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{16DAD9A5-4B50-47BE-8B38-597EBE1CCFD6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{16DAD9A5-4B50-47BE-8B38-597EBE1CCFD6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{16DAD9A5-4B50-47BE-8B38-597EBE1CCFD6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{C3B5332C-EB0F-439C-A9E2-D16F85F2A0A7} = {AFAA0841-BD93-466F-B8F4-FB4EEC86F1FC}
+		{38F6874A-AB6B-41A5-A3C8-3D5FDFEAD638} = {AFAA0841-BD93-466F-B8F4-FB4EEC86F1FC}
+		{6D360480-CE8F-42AC-A5AF-C018F3B49B57} = {AFAA0841-BD93-466F-B8F4-FB4EEC86F1FC}
+		{16DAD9A5-4B50-47BE-8B38-597EBE1CCFD6} = {F10AA149-2626-486E-85BB-9CD5365F3016}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {DC989310-3855-478B-807C-EAF6EFD36C2B}

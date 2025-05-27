@@ -88,11 +88,12 @@ namespace FravegaEcommerceAPI.Services
 
             if (await _orderRepository.ExistsExternalReference(
                 request.ExternalReferenceId, request.Channel))
-                throw new ConflictException("ExternalReferenceId must be unique per channel");
+                throw new ConflictException(
+                    $"ExternalReferenceId {request.ExternalReferenceId} must be unique per channel");
 
             var totalProductsValue = request.Products.Sum(p => p.Price * p.Quantity);
             if (totalProductsValue != request.TotalValue)
-                throw new ValidationException("TotalValue doesn't match products sum");
+                throw new ValidationException($"TotalValue {request.TotalValue} doesn't match products sum {totalProductsValue}");
         }
 
         private async Task ValidateEventRequest(AddEventRequest request)

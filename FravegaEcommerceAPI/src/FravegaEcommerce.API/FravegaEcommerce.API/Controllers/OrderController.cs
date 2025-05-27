@@ -26,7 +26,7 @@ namespace FravegaEcommerceAPI.Controllers
             }
             catch (ValidationException ex)
             {
-                return BadRequest(ex.Message);
+                return BadRequest(ex.Errors?.FirstOrDefault()?.ErrorMessage);
             }
             catch (ConflictException ex)
             {

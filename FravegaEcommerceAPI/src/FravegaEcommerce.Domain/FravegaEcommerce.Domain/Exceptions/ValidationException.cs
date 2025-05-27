@@ -9,7 +9,6 @@ namespace FravegaEcommerceAPI.Exceptions
         public ValidationException(string message) : base(message) { }
 
         public ValidationException(List<ValidationFailure> errors)
-            : base("Validation failed")
         {
             Errors = errors;
         }

@@ -106,7 +106,7 @@ namespace FravegaEcommerceAPI.Services
         private void ValidateStateTransition(OrderStatus currentStatus, OrderStatus newStatus)
         {
             if (!StateTransitions.IsValidTransition(currentStatus, newStatus))
-                throw new BusinessRuleException("Invalid state transition");
+                throw new BusinessRuleException($"Invalid state transition from {currentStatus} to {newStatus}");
         }
 
         private static Event CreateInitialEvent() => new()

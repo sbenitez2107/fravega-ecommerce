@@ -12,7 +12,7 @@ namespace FravegaEcommerceAPI.Validators
                 .MaximumLength(255).WithMessage("ExternalReferenceId max length is 255");
 
             RuleFor(x => x.Channel)
-                .NotEmpty().WithMessage("The Channel field is required")
+                .NotEmpty().WithMessage("The Channel field is required.")
                 .Must(BeValidChannel).WithMessage("Invalid channel value");
 
             RuleFor(x => x.PurchaseDate)
@@ -23,7 +23,7 @@ namespace FravegaEcommerceAPI.Validators
                 .GreaterThan(0).WithMessage("TotalValue must be greater than 0");
 
             RuleFor(x => x.Buyer)
-                .NotNull().WithMessage("Buyer information is required")
+                .NotNull().WithMessage("The Buyer field is required.")
                 .SetValidator(new BuyerValidator());
 
             RuleFor(x => x.Products)

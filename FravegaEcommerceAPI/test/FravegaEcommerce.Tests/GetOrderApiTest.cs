@@ -6,6 +6,7 @@ using Microsoft.Extensions.DependencyInjection;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization;
 using MongoDB.Driver;
+using System.Net;
 using System.Net.Http.Json;
 using Xunit;
 
@@ -42,10 +43,22 @@ namespace FravegaEcommerce.Tests
             var response = await clientHttp.GetAsync($"v1/orders/{order.OrderId}");
             response.EnsureSuccessStatusCode();
 
-            // Check the response content
             var orderResponse = await response.Content.ReadFromJsonAsync<GetOrderResponse>();
             orderResponse?.Should().NotBeNull();
             orderResponse?.OrderId.Should().Be(order.OrderId);
+        }
+
+        [Fact]
+        public async Task GetOrderTest_2_OrderNotFound_ShouldFail()
+        {
+            (Order? request, HttpResponseMessage response) result = await CreateNewOrder();
+
+            var response = await clientHttp.GetAsync($"v1/orders/10");
+            response.StatusCode.Should().Be(HttpStatusCode.NotFound);
+
+            var orderResponse = await response.Content.ReadAsStringAsync();
+            orderResponse?.Should().NotBeNull();
+            orderResponse?.Should().Contain($"Order not found");
         }
     }
 }

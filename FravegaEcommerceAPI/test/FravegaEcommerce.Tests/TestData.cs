@@ -11,7 +11,7 @@ namespace FravegaEcommerce.Tests
 {
     public static class TestData
     {
-        public static Order? CreateOrderTestRequest()
+        public static Order CreateOrderTestRequest()
         {
             var request = new CreateOrderRequest(
                 ExternalReferenceId: "EC-0000000001",
@@ -75,5 +75,15 @@ namespace FravegaEcommerce.Tests
 
             return newOrder;
         } 
+    
+        public static AddEventRequest CreateAddEventRequest()
+        {
+            return new AddEventRequest(
+                Id: "event-002",
+                Type: "PaymentReceived",
+                Date: DateTime.UtcNow,
+                User: "externalUser"
+            );
+        }
     }
 }

@@ -26,11 +26,15 @@ namespace FravegaEcommerceAPI.Controllers
             }
             catch (ValidationException ex)
             {
-                return BadRequest(ex.Errors?.FirstOrDefault()?.ErrorMessage);
+                return BadRequest(ex.Errors?.FirstOrDefault()?.ErrorMessage ?? ex.Message);
             }
             catch (ConflictException ex)
             {
                 return Conflict(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
             }
         }
 
@@ -48,7 +52,7 @@ namespace FravegaEcommerceAPI.Controllers
             }
             catch (ValidationException ex)
             {
-                return BadRequest(ex.Message);
+                return BadRequest(string.Join(" ", ex.Errors?.Select(x => x.ErrorMessage)));
             }
             catch (BusinessRuleException ex)
             {

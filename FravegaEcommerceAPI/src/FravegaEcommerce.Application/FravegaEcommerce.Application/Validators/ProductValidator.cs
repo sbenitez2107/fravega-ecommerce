@@ -8,11 +8,11 @@ namespace FravegaEcommerceAPI.Validators
         public ProductValidator()
         {
             RuleFor(x => x.Sku)
-                .NotEmpty().WithMessage("SKU is required")
+                .NotEmpty().WithMessage("The Sku field is required.")
                 .MaximumLength(50).WithMessage("SKU max length is 50");
 
             RuleFor(x => x.Name)
-                .NotEmpty().WithMessage("Product name is required")
+                .NotEmpty().WithMessage("The Name field is required.")
                 .MaximumLength(200).WithMessage("Product name max length is 200");
 
             RuleFor(x => x.Description)

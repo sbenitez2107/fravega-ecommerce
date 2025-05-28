@@ -8,14 +8,15 @@ namespace FravegaEcommerceAPI.Validators
         public AddEventValidator()
         {
             RuleFor(x => x.Id)
-                .NotEmpty().WithMessage("Event ID is required")
+                .NotEmpty().WithMessage("The Id field is required.")
                 .MaximumLength(50).WithMessage("Event ID max length is 50");
 
             RuleFor(x => x.Type)
-                .NotEmpty().WithMessage("Event type is required")
+                .NotEmpty().WithMessage("The Type field is required.")
                 .Must(BeValidEventType).WithMessage("Invalid event type");
 
             RuleFor(x => x.Date)
+                .Must(date => date != default(DateTime) && date != DateTime.MinValue).When(x => x.Date != null)
                 .NotEmpty().WithMessage("Event date is required")
                 .Must(BeUtcDate).WithMessage("Event date must be in UTC")
                 .LessThanOrEqualTo(DateTime.UtcNow).WithMessage("Event date cannot be in the future");

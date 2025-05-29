@@ -15,6 +15,7 @@ namespace FravegaEcommerceAPI.Mappers
                 .ForMember(dest => dest.UpdatedOn, opt => opt.MapFrom(src => src.Events.Last().Date));
 
             CreateMap<AddEventRequest, Event>()
+                .ForMember(dest => dest.Id, opt => opt.MapFrom(src => Guid.NewGuid().ToString()))
                 .ForMember(dest => dest.Date, opt => opt.MapFrom(src => src.Date.ToUniversalTime()))
                 .ForMember(dest => dest.User, opt => opt.MapFrom(src => src.User ?? "System"));
 

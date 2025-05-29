@@ -39,7 +39,6 @@ namespace FravegaEcommerce.Tests
             order.TotalValue.Should().Be(result.request.TotalValue);
             order.TotalValue.Should().Be(order.Products.Sum(p => p.Price * p.Quantity));
 
-            // Search order by Order ID
             var response = await clientHttp.GetAsync($"v1/orders/{order.OrderId}");
             response.EnsureSuccessStatusCode();
 

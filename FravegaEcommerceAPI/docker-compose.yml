@@ -1,0 +1,37 @@
+services:
+  mongodb:
+    image: mongo:latest
+    container_name: fravega_mongodb
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: fravega
+    networks:
+      - fravega-network
+    volumes:
+      - mongodb_data:/data/db
+
+  webapp:
+    build: 
+      context: .
+      dockerfile: Dockerfile
+    image: fravega-ecommerce-api
+    container_name: fravega-api
+    ports:
+      - "5000:8080"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ConnectionStrings=mongodb://admin:fravega@localhost:27017/?authSource=admin
+    depends_on:
+      - mongodb
+    networks:
+      - fravega-network
+
+networks:
+  fravega-network:
+    driver: bridge
+
+volumes:
+  mongodb_data:
+  

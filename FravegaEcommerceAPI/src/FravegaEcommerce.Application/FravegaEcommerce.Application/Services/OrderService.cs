@@ -35,6 +35,10 @@ namespace FravegaEcommerceAPI.Services
         {
             await ValidateCreateOrderRequest(request);
 
+            if (await _orderRepository.ExistsExternalReference(
+                request.ExternalReferenceId, request.Channel))
+                return CreateIdempotentCreateOrderResponse(request);
+
             var order = _mapper.Map<Order>(request);
             order.Status = OrderStatus.Created;
             order.UpdatedOn =  DateTime.UtcNow;
@@ -52,7 +56,7 @@ namespace FravegaEcommerceAPI.Services
                 ?? throw new NotFoundException("Order not found");
 
             if (order.Events.Any(e => e.Id == request.Id))
-                return CreateIdempotentResponse(order);
+                return CreateIdempotentEventResponse(order);
 
             ValidateStateTransition(order.Status, OrderStatusHelper.FromString(request.Type));
 
@@ -86,11 +90,6 @@ namespace FravegaEcommerceAPI.Services
             if (!validationResult.IsValid)
                 throw new ValidationException(validationResult.Errors);
 
-            if (await _orderRepository.ExistsExternalReference(
-                request.ExternalReferenceId, request.Channel))
-                throw new ConflictException(
-                    $"ExternalReferenceId {request.ExternalReferenceId} must be unique per channel");
-
             var totalProductsValue = request.Products.Sum(p => p.Price * p.Quantity);
             if (totalProductsValue != request.TotalValue)
                 throw new ValidationException($"TotalValue {request.TotalValue} doesn't match products sum {totalProductsValue}");
@@ -116,10 +115,15 @@ namespace FravegaEcommerceAPI.Services
             Date = DateTime.UtcNow
         };
 
-        private static AddEventResponse CreateIdempotentResponse(Order order) => new(
+        private static AddEventResponse CreateIdempotentEventResponse(Order order) => new(
             order.OrderId,
             order.Status.ToString(),
             order.Status.ToString(),
+            DateTime.UtcNow);
+
+        private static CreateOrderResponse CreateIdempotentCreateOrderResponse(CreateOrderRequest order) => new(
+            1,
+            OrderStatus.Created.ToString(),
             DateTime.UtcNow);
 
     }

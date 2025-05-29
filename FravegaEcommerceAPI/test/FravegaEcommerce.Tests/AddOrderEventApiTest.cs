@@ -40,7 +40,6 @@ namespace FravegaEcommerce.Tests
             order.TotalValue.Should().Be(result.request.TotalValue);
             order.TotalValue.Should().Be(order.Products.Sum(p => p.Price * p.Quantity));
 
-            // Add event to order
             var eventRequest = new AddEventRequest(
                 Id: "event-002",
                 Type: "Cancelled",
@@ -51,7 +50,6 @@ namespace FravegaEcommerce.Tests
             var response = await clientHttp.PostAsJsonAsync($"v1/orders/{order.OrderId}/events", eventRequest);
             response.EnsureSuccessStatusCode();
 
-            // Check event added in MongoDB
             var updatedOrderCollection = await collection.Find(FilterDefinition<BsonDocument>.Empty).FirstOrDefaultAsync();
             updatedOrderCollection.Should().NotBeNull();
             updatedOrderCollection["events"].AsBsonArray.Should().NotBeEmpty();

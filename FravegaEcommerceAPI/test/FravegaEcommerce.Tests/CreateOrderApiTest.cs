@@ -1,5 +1,6 @@
 ﻿using FluentAssertions;
 using FravegaEcommerceAPI.Enums;
+using FravegaEcommerceAPI.Models.DTOs.Responses;
 using FravegaEcommerceAPI.Models.Entities;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
@@ -37,23 +38,18 @@ namespace FravegaEcommerce.Tests
         }
 
         [Fact]
-        public async Task CreateOrderTest_2_ExternalIdDuplicated_ShouldFail()
+        public async Task CreateOrderTest_2_ExternalIdDuplicated_ShouldSuccessfull()
         {
+            // Idempotency test: if the same ExternalReferenceId is sent, it should return the same order without creating a new one.
             (Order? request, HttpResponseMessage response) result = await CreateNewOrder();
 
             var requestExternalDuplicated = TestData.CreateOrderTestRequest();
 
             var responseExternalDuplicated = await clientHttp.PostAsJsonAsync("v1/orders", requestExternalDuplicated);
-            responseExternalDuplicated.StatusCode.Should().Be(HttpStatusCode.Conflict);
-            var responseContent = await responseExternalDuplicated.Content.ReadAsStringAsync();
-            responseContent.Should().Contain($"ExternalReferenceId {requestExternalDuplicated?.ExternalReferenceId} must be unique per channel");
-
-            var mongoClient = factory.Services.GetRequiredService<IMongoClient>();
-            var db = mongoClient.GetDatabase("FravegaDB");
-            var count = await db.GetCollection<BsonDocument>("orders")
-                .CountDocumentsAsync(FilterDefinition<BsonDocument>.Empty);
-
-            count.Should().Be(1);
+            responseExternalDuplicated.StatusCode.Should().Be(HttpStatusCode.OK);
+            var responseContent = await responseExternalDuplicated.Content.ReadFromJsonAsync<CreateOrderResponse>();
+            responseContent?.OrderId.Should().Be(1);
+            responseContent?.Status.Should().Be(OrderStatus.Created.ToString());
         }
 
         [Fact]
@@ -403,7 +399,7 @@ namespace FravegaEcommerce.Tests
             await CleanDatabase();
 
             var requestProductName = TestData.CreateOrderTestRequest();
-            requestProductName.Products[0].Name = new string('A', 201); // Set Product Name with 51 characters
+            requestProductName.Products[0].Name = new string('A', 201); // Set Product Name with 201 characters
 
             var responseProductName = await clientHttp.PostAsJsonAsync("v1/orders", requestProductName);
             responseProductName.StatusCode.Should().Be(HttpStatusCode.BadRequest);
@@ -419,7 +415,7 @@ namespace FravegaEcommerce.Tests
             await CleanDatabase();
 
             var requestProductDescription = TestData.CreateOrderTestRequest();
-            requestProductDescription.Products[0].Description = new string('A', 2001); // Set Product Description with 51 characters
+            requestProductDescription.Products[0].Description = new string('A', 2001); // Set Product Description with 2001 characters
 
             var responseProductDescription = await clientHttp.PostAsJsonAsync("v1/orders", requestProductDescription);
             responseProductDescription.StatusCode.Should().Be(HttpStatusCode.BadRequest);

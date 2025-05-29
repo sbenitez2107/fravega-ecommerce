@@ -1,9 +1,13 @@
 ﻿using AutoMapper;
+using FravegaEcommerceAPI.Enums;
 using FravegaEcommerceAPI.Mappers;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using MongoDB.Bson;
+using MongoDB.Bson.Serialization;
+using MongoDB.Bson.Serialization.Serializers;
 using MongoDB.Driver;
 
 namespace FravegaEcommerce.Tests
@@ -33,6 +37,12 @@ namespace FravegaEcommerce.Tests
             {
                 services.AddSingleton(Mapper);
             });
+
+            var existingSerializer = BsonSerializer.LookupSerializer(typeof(OrderStatus));
+            if (existingSerializer is null || existingSerializer.GetType() == typeof(ObjectSerializer))
+            {
+                BsonSerializer.RegisterSerializer(new EnumSerializer<OrderStatus>(BsonType.String));
+            }
         }
     }
 }

@@ -26,7 +26,11 @@ public class Program()
         builder.Services.AddSingleton<IMongoDatabase>(database);
 
         // MongoDB convertions
-        BsonSerializer.RegisterSerializer(new EnumSerializer<OrderStatus>(BsonType.String));
+        var existingSerializer = BsonSerializer.LookupSerializer(typeof(OrderStatus));
+        if (existingSerializer is null || existingSerializer.GetType() == typeof(ObjectSerializer))
+        {
+            BsonSerializer.RegisterSerializer(new EnumSerializer<OrderStatus>(BsonType.String));
+        }
 
         if (!BsonClassMap.IsClassMapRegistered(typeof(Order)))
         {

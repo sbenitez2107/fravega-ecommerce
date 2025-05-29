@@ -51,7 +51,6 @@ namespace FravegaEcommerce.Tests
         {
             (Order? request, HttpResponseMessage response) result = await CreateNewOrder();
 
-            // Check create order in MongoDB
             var mongoClient = factory.Services.GetRequiredService<IMongoClient>();
             var db = mongoClient.GetDatabase("FravegaDB");
             var collection = db.GetCollection<BsonDocument>("orders");
@@ -66,11 +65,9 @@ namespace FravegaEcommerce.Tests
             order.TotalValue.Should().Be(result.request.TotalValue);
             order.TotalValue.Should().Be(order.Products.Sum(p => p.Price * p.Quantity));
 
-            // Search order by Order ID
             var response = await clientHttp.GetAsync($"v1/orders/search?orderId={order.OrderId}&documentNumber&status&createdOnFrom&createdOnTo");
             response.EnsureSuccessStatusCode();
 
-            // Check the response content
             var orderResponse = await response.Content.ReadFromJsonAsync<List<GetOrderResponse>>();
             orderResponse?.Should().NotBeNull();
             orderResponse?.FirstOrDefault()?.OrderId.Should().Be(order.OrderId);
@@ -82,11 +79,9 @@ namespace FravegaEcommerce.Tests
         {
             (Order? request, HttpResponseMessage response) result = await CreateNewOrder();
 
-            // Search order by Order ID
             var response = await clientHttp.GetAsync($"v1/orders/search?documentNumber={result.request?.Buyer.DocumentNumber}");
             response.EnsureSuccessStatusCode();
 
-            // Check the response content
             var orderResponse = await response.Content.ReadFromJsonAsync<List<GetOrderResponse>>();
             orderResponse?.Should().NotBeNull();
             orderResponse?.FirstOrDefault()?.OrderId.Should().Be(result.request?.OrderId);
@@ -98,11 +93,9 @@ namespace FravegaEcommerce.Tests
         {
             (Order? request, HttpResponseMessage response) result = await CreateNewOrder();
 
-            // Search order by Order ID
             var response = await clientHttp.GetAsync($"v1/orders/search?status={result.request?.Status}");
             response.EnsureSuccessStatusCode();
 
-            // Check the response content
             var orderResponse = await response.Content.ReadFromJsonAsync<List<GetOrderResponse>>();
             orderResponse?.Should().NotBeNull();
             orderResponse?.FirstOrDefault()?.OrderId.Should().Be(result.request?.OrderId);
@@ -114,11 +107,9 @@ namespace FravegaEcommerce.Tests
         {
             (Order? request, HttpResponseMessage response) result = await CreateNewOrder();
 
-            // Search order by Order ID
             var response = await clientHttp.GetAsync($"v1/orders/search?createdOnFrom={result.request?.UpdatedOn.ToString("yyyy-MM-ddTHH:mm:ssZ", CultureInfo.InvariantCulture)}");
             response.EnsureSuccessStatusCode();
 
-            // Check the response content
             var orderResponse = await response.Content.ReadFromJsonAsync<List<GetOrderResponse>>();
             orderResponse?.Should().NotBeNull();
             orderResponse?.FirstOrDefault()?.OrderId.Should().Be(result.request?.OrderId);
@@ -130,11 +121,9 @@ namespace FravegaEcommerce.Tests
         {
             (Order? request, HttpResponseMessage response) result = await CreateNewOrder();
 
-            // Search order by Order ID
             var response = await clientHttp.GetAsync($"v1/orders/search?CreatedOnTo={DateTime.UtcNow.AddDays(1).ToString("yyyy-MM-ddTHH:mm:ssZ", CultureInfo.InvariantCulture)}");
             response.EnsureSuccessStatusCode();
 
-            // Check the response content
             var orderResponse = await response.Content.ReadFromJsonAsync<List<GetOrderResponse>>();
             orderResponse.Should().NotBeNull();
             orderResponse?.Should().NotBeEmpty();
@@ -145,11 +134,9 @@ namespace FravegaEcommerce.Tests
         {
             (Order? request, HttpResponseMessage response) result = await CreateNewOrder();
 
-            // Search order by Order ID
             var response = await clientHttp.GetAsync($"v1/orders/search?createdOnTo={DateTime.UtcNow.AddDays(1).ToString("yyyy-MM-ddTHH:mm:ssZ", CultureInfo.InvariantCulture)}&createdOnFrom={result.request?.UpdatedOn.ToString("yyyy-MM-ddTHH:mm:ssZ", CultureInfo.InvariantCulture)}");
             response.EnsureSuccessStatusCode();
 
-            // Check the response content
             var orderResponse = await response.Content.ReadFromJsonAsync<List<GetOrderResponse>>();
             orderResponse.Should().NotBeNull();
             orderResponse?.Should().NotBeEmpty();
@@ -160,12 +147,10 @@ namespace FravegaEcommerce.Tests
         {
             (Order? request, HttpResponseMessage response) result = await CreateNewOrder();
 
-            // Search order by Order ID
             var response = await clientHttp.GetAsync($"v1/orders/search?" +
                 $"createdOnTo={result.request?.UpdatedOn.ToString("yyyy-MM-ddTHH:mm:ssZ", CultureInfo.InvariantCulture)}&createdOnFrom={DateTime.UtcNow.AddDays(1).ToString("yyyy-MM-ddTHH:mm:ssZ", CultureInfo.InvariantCulture)}");
             response.EnsureSuccessStatusCode();
 
-            // Check the response content
             var orderResponse = await response.Content.ReadFromJsonAsync<List<GetOrderResponse>>();
             orderResponse.Should().NotBeNull();
             orderResponse?.Should().BeEmpty();

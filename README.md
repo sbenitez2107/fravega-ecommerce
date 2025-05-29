@@ -19,27 +19,27 @@ git clone https://github.com/sbenitez2107/fravega-ecommerce.git
 cd fravega-ecommerce
 Start MongoDB container (if using Docker):
 
-# 1) Start up application and mongoDB using docker compose
+## 1) Start up application and mongoDB using docker compose
 docker-compose up -d --build //Build API Rest docker image and then startup microservice container 
 
 Check the path http://localhost:5000/swagger/index.html to see if swagger is active.
 
 Use the command docker-compose down for stopping the execution
 
-# 2) Start up application using Visual Studio
+## 2) Start up application using Visual Studio
 To build and run the project in Visual Studio, first clean the solution, then select Build Solution. Once all the projects have been successfully compiled, run the HTTPS profile.
 
-# Start up only mongoDB for testing
+## Start up only mongoDB for testing
 To use the MongoDB database, run the following command to create a container with MongoDB. The collections that will be created are orders and counters, which are used to manage the ID fields of the tables. This database is also used for running unit and integration tests.
 
 docker-compose -f .\docker-compose-mongo-db.yml up -d
 
-# 3) Using Postman collection
+## 3) Using Postman collection
 For API testing purposes, a Postman collection with the relevant methods and endpoints is also included.
 
 Fravega Collection.postman_collection.json
 
-# 4) Execute suite test
+## 4) Execute suite test
 # How to Run the Test Suite Using Visual Studio
 To execute the unit and integration tests for the project, follow these steps:
 
@@ -49,7 +49,7 @@ Alternatively, you can open it via: View > Test Explorer.
 In the Test Explorer window, click on Run All to execute all available tests.
 Make sure the MongoDB container is up and running before executing the tests, as it is required for both unit and integration test scenarios.
 
-# How to Run the Test Suite from the Command Line
+## How to Run the Test Suite from the Command Line
 To run the unit tests using the .NET CLI, follow these steps:
 
 Open a terminal or command prompt, navigate to the root folder of the test project /FravegaEcommerceAPI/test/FravegaEcommerce.Tests
